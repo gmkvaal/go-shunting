@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/states.go" line="27" mnemonic="6" />
+    <bookmark url="file://$PROJECT_DIR$/states.go" line="41" mnemonic="6" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e3d8f7f-1a2c-41b1-bd2e-ef758f5f02d9" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/states.go" />
+      <change beforePath="$PROJECT_DIR$/states.go" afterPath="$PROJECT_DIR$/states.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,8 +22,8 @@
       <file leaf-file-name="states.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/states.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="828">
-              <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+            <state relative-caret-position="846">
+              <caret line="47" column="27" lean-forward="false" selection-start-line="47" selection-start-column="27" selection-end-line="47" selection-end-column="27" />
               <folding>
                 <element signature="e#14#47#0" expanded="true" />
               </folding>
@@ -231,8 +231,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/states.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+        <state relative-caret-position="846">
+          <caret line="47" column="27" lean-forward="false" selection-start-line="47" selection-start-column="27" selection-end-line="47" selection-end-column="27" />
           <folding>
             <element signature="e#14#47#0" expanded="true" />
           </folding>

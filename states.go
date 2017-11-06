@@ -3,10 +3,13 @@ package main
 import(
 	"fmt"
 	"os"
-	"reflect"
+	"strings"
 )
 
-// var mapping map[string]
+var asciiChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+var numbers = "0123456789"
+
+
 
 type returnState struct {
 	nextState func(string) returnState
@@ -15,10 +18,21 @@ type returnState struct {
 	increment bool
 }
 
-
-
-
 func SuperState(char string, mapping map[string] returnState) returnState{
+
+	// If the current state maps letters and the char is a letter
+	if _, ok := mapping["letters"]; ok {
+		if strings.Contains(asciiChars, char) {
+			return mapping["letters"]
+		}
+	}
+
+	// If the current state maps numbers and the char is a number
+	if _, ok := mapping["numbers"]; ok {
+		if strings.Contains(numbers, char) {
+			return mapping["numbers"]
+		}
+	}
 
 	// If char is not in the map, it is illegal
 	if _, ok := mapping[char]; ok != true {
@@ -26,15 +40,14 @@ func SuperState(char string, mapping map[string] returnState) returnState{
 		os.Exit(1)
 	}
 
-	fmt.Println(reflect.TypeOf(mapping[char]))
-
-	return(mapping[char])
+	return mapping[char]
 }
 
-func TestState(char string) returnState{
+func StartState(char string) returnState{
 
 	mapping := map[string] returnState{
-		"b": {TestState, false, false, false},
+		"letters": {StartState, true, false, false},
+		"+": {StartState, true, false, false},
 	}
 
 	return SuperState(
@@ -49,8 +62,8 @@ func main() {
 	char := "b"
 
 
-	state := TestState(char)
+	state := StartState(char)
 
 
-	fmt.Println(state)
+	fmt.Println(state.append)
 }
