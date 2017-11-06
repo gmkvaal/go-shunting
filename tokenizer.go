@@ -8,7 +8,7 @@ import(
 
 var asciiChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 var numbers = "0123456789"
-
+var mathSymbols = []string{"+", "-", "*", "**", "/", "(", ")"}
 
 
 type returnState struct {
@@ -18,19 +18,31 @@ type returnState struct {
 	increment bool
 }
 
+
+// GenericState is
 func GenericState(char string, mapping map[string] *returnState) *returnState{
 
-	// If the current state maps letters and the char is a letter
+	// If the current state maps letters and char is a letter
 	if _, ok := mapping["letters"]; ok {
 		if strings.Contains(asciiChars, char) {
 			return mapping["letters"]
 		}
 	}
 
-	// If the current state maps numbers and the char is a number
+	// If the current state maps numbers and char is a number
 	if _, ok := mapping["numbers"]; ok {
 		if strings.Contains(numbers, char) {
 			return mapping["numbers"]
+		}
+	}
+
+	// If the current state maps mathematical symbols
+	// and char is a mathematical symbol
+	if _, ok := mapping["math"]; ok {
+		for _, sym := range mathSymbols {
+			if sym == char {
+				return mapping["numbers"]
+			}
 		}
 	}
 
@@ -46,6 +58,32 @@ func GenericState(char string, mapping map[string] *returnState) *returnState{
 func StartState(char string) *returnState{
 
 	mapping := map[string] *returnState{
+		"numbers": {NumPreDotState, true, true, true},
+		"+": {StartState, true, true, true},
+	}
+
+	return GenericState(
+		char,
+		mapping,
+	)
+}
+
+func NumPreDotState(char string) *returnState{
+
+	mapping := map[string] *returnState{
+		"numbers": {NumPreDotState, true, false, true},
+		"math": {StartState, true, true, true},
+	}
+
+	return GenericState(
+		char,
+		mapping,
+	)
+}
+
+func NumPostDotState(char string) *returnState{
+
+	mapping := map[string] *returnState{
 		"numbers": {StartState, true, true, true},
 		"+": {StartState, true, true, true},
 	}
@@ -55,6 +93,7 @@ func StartState(char string) *returnState{
 		mapping,
 	)
 }
+
 
 func main() {
 
@@ -87,8 +126,9 @@ func main() {
 		if currentState.complete {
 			output = append(output, strings.Join(stack, ""))
 			stack = nil
-
 		}
+
+		state = currentState.nextState
 
 		if idx == len(inputSlice) {
 			break
