@@ -1,14 +1,16 @@
 package states
 
 import (
-	"strings"
 	"fmt"
 	"os"
+	"strings"
+)
+const (
+	AsciiChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	Digits = "0123456789"
 )
 
-var asciiChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-var digits = "0123456789"
-var mathSymbols = []string{"+", "-", "*", "**", "/", "(", ")"}
+var MathSymbols = [7]string{"+", "-", "*", "**", "/", "(", ")"}
 
 // Struct field containing the next state,
 // if Append char to stack, if the state is
@@ -21,27 +23,27 @@ type ReturnState struct {
 }
 
 // GenericState interprets the mappings for the current state in relation to
-// the current char and returns the correct mapping
+// the current char and returns the correct mapping.
 func GenericState(char string, mapping map[string]*ReturnState, illegals []string) *ReturnState {
 
 	// If the current state maps letters and char is a letter.
 	if _, ok := mapping["letters"]; ok {
-		if strings.Contains(asciiChars, char) {
+		if strings.Contains(AsciiChars, char) {
 			return mapping["letters"]
 		}
 	}
 
-	// If the current state maps digits and char is a number.
-	if _, ok := mapping["digits"]; ok {
-		if strings.Contains(digits, char) {
-			return mapping["digits"]
+	// If the current state maps Digits and char is a number.
+	if _, ok := mapping["Digits"]; ok {
+		if strings.Contains(Digits, char) {
+			return mapping["Digits"]
 		}
 	}
 
 	// If the current state maps mathematical symbols
 	// and char is a mathematical symbol.
 	if _, ok := mapping["math"]; ok {
-		for _, sym := range mathSymbols {
+		for _, sym := range MathSymbols {
 			if sym == char {
 				return mapping["math"]
 			}
@@ -76,7 +78,7 @@ func StartState(char string) *ReturnState {
 
 	illegals := []string{","}
 	mapping := map[string]*ReturnState{
-		"digits": {NumPreDotState, true, false, true},
+		"Digits": {NumPreDotState, true, false, true},
 		"math":   {SymState, false, false, false},
 		".":      {NumPostDotState, true, false, true},
 	}
@@ -144,13 +146,13 @@ func DivState(char string) *ReturnState {
 	)
 }
 
-// NumPreDotState governs the tokenization of digits prior to decimals.
+// NumPreDotState governs the tokenization of Digits prior to decimals.
 // Returns call to GenericState with char, mapping and illegals
 func NumPreDotState(char string) *ReturnState {
 
 	illegals := []string{}
 	mapping := map[string]*ReturnState{
-		"digits": {NumPreDotState, true, false, true},
+		"Digits": {NumPreDotState, true, false, true},
 		"math":   {SymState, false, true, false},
 		".":      {NumPostDotState, true, false, true},
 	}
@@ -162,15 +164,14 @@ func NumPreDotState(char string) *ReturnState {
 	)
 }
 
-// NumPreDotState governs tokenization of decimal digits.
+// NumPreDotState governs tokenization of decimal Digits.
 // Returns call to GenericState
 func NumPostDotState(char string) *ReturnState {
 
 	illegals := []string{}
 	mapping := map[string]*ReturnState{
-		"digits": {StartState, true, true, true},
+		"Digits": {NumPostDotState, true, false, true},
 		"math":   {SymState, false, true, false},
-		"+":      {StartState, false, true, true},
 	}
 
 	return GenericState(
