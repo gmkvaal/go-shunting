@@ -5,6 +5,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"runtime"
 	"reflect"
+	"os"
+	"fmt"
 )
 
 
@@ -140,3 +142,4 @@ func TestNumPostDotState(t *testing.T) {
 		assert.Equal(t, &mapping[char].Increment, &output.Increment)
 	}
 }
+

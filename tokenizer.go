@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-
+// Formats inputString into individual tokens
 func main() {
 
 	var char string
