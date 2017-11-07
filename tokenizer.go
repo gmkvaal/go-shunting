@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	//"strings"
-	"go_shunting/states"
+	"go-shunting/states"
 	"strings"
 )
 
