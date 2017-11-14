@@ -17,9 +17,9 @@ func GetFuncName(i interface{}) string {
 func TestStartState(t *testing.T) {
 
 	mapping := map[string]*ReturnState{
-		"digits": {NumPreDotState, true, false, true},
-		"math":   {SymState, false, false, false},
-		".":      {NumPostDotState, true, false, true},
+		"digits": {numPreDotState, true, false, true},
+		"math":   {symState, false, false, false},
+		".":      {numPostDotState, true, false, true},
 	}
 
 	inputOutputMap := map[string] string {
@@ -41,7 +41,7 @@ func TestStartState(t *testing.T) {
 	}
 }
 
-func TestSymState(t *testing.T) {
+func TestsymState(t *testing.T) {
 
 	mapping := map[string]*ReturnState{
 		"(": {StartState, true, true, true},
@@ -49,12 +49,12 @@ func TestSymState(t *testing.T) {
 		"%": {StartState, true, true, true},
 		"-": {StartState, true, true, true},
 		"+": {StartState, true, true, true},
-		"*": {MulState, true, false, true},
-		"/": {DivState, true, false, true},
+		"*": {mulState, true, false, true},
+		"/": {divState, true, false, true},
 	}
 
 	for char := range mapping {
-		output := SymState(char)
+		output := symState(char)
 		// Asserting that correct NextState is returned by comparing the function name
 		// as assertion of type func is not allowed
 		assert.Equal(t, GetFuncName(mapping[char].NextState), GetFuncName(output.NextState))
@@ -73,7 +73,7 @@ func TestMulState(t *testing.T) {
 	}
 
 	for char := range mapping {
-		output := MulState(char)
+		output := mulState(char)
 		// Asserting that correct NextState is returned by comparing the function name
 		// as assertion of type func is not allowed
 		assert.Equal(t, GetFuncName(mapping[char].NextState), GetFuncName(output.NextState))
@@ -94,7 +94,7 @@ func TestDivState(t *testing.T) {
 	}
 
 	for char := range mapping {
-		output := DivState(char)
+		output := divState(char)
 		// Asserting that correct NextState is returned by comparing the function name
 		// as assertion of type func is not allowed
 		assert.Equal(t, GetFuncName(mapping[char].NextState), GetFuncName(output.NextState))
@@ -107,13 +107,13 @@ func TestDivState(t *testing.T) {
 func TestNumPreDotState(t *testing.T) {
 
 	mapping := map[string]*ReturnState{
-		"+": {SymState, false, true, false},
-		".": {NumPostDotState, true, false, true},
-		"1": {NumPreDotState, true, false, true},
+		"+": {symState, false, true, false},
+		".": {numPostDotState, true, false, true},
+		"1": {numPreDotState, true, false, true},
 	}
 
 	for char := range mapping {
-		output := NumPreDotState(char)
+		output := numPreDotState(char)
 		// Asserting that correct NextState is returned by comparing the function name
 		// as assertion of type func is not allowed
 		assert.Equal(t, GetFuncName(mapping[char].NextState), GetFuncName(output.NextState))
@@ -126,12 +126,12 @@ func TestNumPreDotState(t *testing.T) {
 func TestNumPostDotState(t *testing.T) {
 
 	mapping := map[string]*ReturnState{
-		"+": {SymState, false, true, false},
-		"1": {NumPostDotState, true, false, true},
+		"+": {symState, false, true, false},
+		"1": {numPostDotState, true, false, true},
 	}
 
 	for char := range mapping {
-		output := NumPostDotState(char)
+		output := numPostDotState(char)
 		// Asserting that correct NextState is returned by comparing the function name
 		// as assertion of type func is not allowed
 		assert.Equal(t, GetFuncName(mapping[char].NextState), GetFuncName(output.NextState))

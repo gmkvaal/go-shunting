@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	//"strings"
-	"go-shunting/states"
+	"github.com/gmkvaal/go-shunting/states"
 	"strings"
 )
 
@@ -26,7 +26,10 @@ func main() {
 	idx := 0
 	for {
 		char = inputSlice[idx]
-		currentState := state(char)
+		currentState, err:= state(char)
+		if err != nil {
+			fmt.Print(err)
+		}
 
 		if currentState.Append {
 			stack = append(stack, char)
